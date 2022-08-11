@@ -72,13 +72,6 @@ public class ChipBehavior : MonoBehaviour
         target = new Vector3(spots[x - 1].transform.position.x, spots[x - 1].transform.position.y, 0);
         DeselectChipsAndSpots();
         isMoving = true;
-        if (currentSpotNum == endSpotNum)
-        {
-            gameObject.transform.GetChild(0).GetComponent<SpriteRenderer>().material.color = new Color(0.2f, 1f, 0.2f, 1f);
-
-            atTheEnd = true;
-            handler.GetComponent<Gameplay>().IncreaseChipsCountAtTheEnd();
-        }
     }
 
     private void Update()
@@ -89,8 +82,18 @@ public class ChipBehavior : MonoBehaviour
             float step = speed * Time.deltaTime;
             transform.position = Vector3.MoveTowards(transform.position, target, step);
             if (transform.position == target)
+            {
                 isMoving = false;
+                if (currentSpotNum == endSpotNum)
+                {
+                    gameObject.transform.GetChild(0).GetComponent<SpriteRenderer>().material.color = new Color(0.2f, 1f, 0.2f, 1f);
+
+                    atTheEnd = true;
+                    handler.GetComponent<Gameplay>().IncreaseChipsCountAtTheEnd();
+                }
+            }
         }
+
     }
 
     public void SetInitialSpotNum(int x)
